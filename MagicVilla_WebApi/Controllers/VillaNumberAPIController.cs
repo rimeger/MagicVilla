@@ -4,6 +4,7 @@ using MagicVilla_WebApi.Models;
 using MagicVilla_WebApi.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MagicVilla_WebApi.Controllers
 {
@@ -15,11 +16,13 @@ namespace MagicVilla_WebApi.Controllers
         protected APIResponse _response;
         private readonly IVillaNumberRepository _dbVillaNumber;
         private readonly IMapper _mapper;
+        private readonly IVillaRepository _dbVilla;
 
-        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, IMapper mapper)
+        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, IMapper mapper, IVillaRepository dbVilla)
         {
             _dbVillaNumber = dbVillaNumber;
             _mapper = mapper;
+            _dbVilla = dbVilla;
             _response = new();
         }
 
@@ -96,6 +99,12 @@ namespace MagicVilla_WebApi.Controllers
                 if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
                 {
                     ModelState.AddModelError("", "Villa Number already exists!");
+                    return BadRequest(ModelState);
+                }
+
+                if(await _dbVilla.GetAsync(i => i.Id == createDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
                 }
 
@@ -177,6 +186,12 @@ namespace MagicVilla_WebApi.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
                     return BadRequest(_response);
+                }
+
+                if (await _dbVilla.GetAsync(i => i.Id == updateDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
                 }
 
                 VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
