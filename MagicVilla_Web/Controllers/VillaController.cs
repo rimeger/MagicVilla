@@ -48,10 +48,12 @@ namespace MagicVilla_Web.Controllers
 
 				if (response != null && response.IsSuccess)
 				{
+                    TempData["success"] = "Villa created successfully";
                     return RedirectToAction(nameof(IndexVilla));
 				}
 			}
-            return View(model);
+			TempData["error"] = "Error encountered";
+			return View(model);
 		}
 
         public async Task<IActionResult> UpdateVilla(int villaId)
@@ -60,7 +62,7 @@ namespace MagicVilla_Web.Controllers
 
             if (response != null && response.IsSuccess)
             {
-                VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+				VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
                 return View(_mapper.Map<VillaUpdateDTO>(model));
             }
             return NotFound();
@@ -76,10 +78,12 @@ namespace MagicVilla_Web.Controllers
 
                 if (response != null && response.IsSuccess)
                 {
-                    return RedirectToAction(nameof(IndexVilla));
+					TempData["success"] = "Villa updated successfully";
+					return RedirectToAction(nameof(IndexVilla));
                 }
             }
-            return View(model);
+			TempData["error"] = "Error encountered";
+			return View(model);
         }
 
         public async Task<IActionResult> DeleteVilla(int villaId)
@@ -102,10 +106,11 @@ namespace MagicVilla_Web.Controllers
 
             if (response != null && response.IsSuccess)
             {
-                return RedirectToAction(nameof(IndexVilla));
+				TempData["success"] = "Villa deleted successfully";
+				return RedirectToAction(nameof(IndexVilla));
             }
-
-            return View(model);
+			TempData["error"] = "Error encountered";
+			return View(model);
         }
     }
 }
