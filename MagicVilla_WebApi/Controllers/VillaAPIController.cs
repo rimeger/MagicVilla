@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using MagicVilla_WebApi.Data;
 using MagicVilla_WebApi.Models;
 using MagicVilla_WebApi.Models.Dto;
 using MagicVilla_WebApi.Repository.IRepository;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace MagicVilla_WebApi.Controllers
