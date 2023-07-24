@@ -27,6 +27,7 @@ namespace MagicVilla_WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default30")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -57,6 +58,7 @@ namespace MagicVilla_WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ResponseCache(Duration = 30)] 
         //[ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
