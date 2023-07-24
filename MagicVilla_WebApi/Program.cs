@@ -1,10 +1,13 @@
 using MagicVilla_WebApi;
 using MagicVilla_WebApi.Data;
+using MagicVilla_WebApi.Models;
 using MagicVilla_WebApi.Repository;
 using MagicVilla_WebApi.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -21,6 +24,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+	.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
