@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace MagicVilla_WebApi.Controllers
+namespace MagicVilla_WebApi.Controllers.v2
 {
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
     [ApiVersion("2.0")]
-    public class VillaNumberAPIv2Controller : ControllerBase
+    public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
         private readonly IVillaNumberRepository _dbVillaNumber;
         private readonly IMapper _mapper;
         private readonly IVillaRepository _dbVilla;
 
-        public VillaNumberAPIv2Controller(IVillaNumberRepository dbVillaNumber, IMapper mapper, IVillaRepository dbVilla)
+        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, IMapper mapper, IVillaRepository dbVilla)
         {
             _dbVillaNumber = dbVillaNumber;
             _mapper = mapper;
