@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace MagicVilla_WebApi.Controllers
+namespace MagicVilla_WebApi.Controllers.v1
 {
-    [Route("api/VillaNumberAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ApiVersion("1.0")]
     public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -28,6 +28,7 @@ namespace MagicVilla_WebApi.Controllers
             _response = new();
         }
 
+        //[MapToApiVersion("1.0")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -66,7 +67,7 @@ namespace MagicVilla_WebApi.Controllers
                     return BadRequest(_response);
                 }
 
-                var villaNumber = await _dbVillaNumber.GetAsync(v => v.VillaNo == id, includeProperties:"Villa");
+                var villaNumber = await _dbVillaNumber.GetAsync(v => v.VillaNo == id, includeProperties: "Villa");
 
                 if (villaNumber == null)
                 {
@@ -105,7 +106,7 @@ namespace MagicVilla_WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if(await _dbVilla.GetAsync(i => i.Id == createDTO.VillaID) == null)
+                if (await _dbVilla.GetAsync(i => i.Id == createDTO.VillaID) == null)
                 {
                     ModelState.AddModelError("ErrorMessages", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
